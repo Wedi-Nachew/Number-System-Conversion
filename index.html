@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF_8">
+    <meta name="viewport" content="width=device_width, initial_scale=1.0">
     <title>Number System Converter</title>
     <link rel="stylesheet" href="./style.css">
     <script src="./index.js"></script>
@@ -18,5 +18,49 @@
         </ul>
     </nav>
    </header> 
+   <div id="hero">
+        <h2>
+            <span>Decimal</span>
+            To
+            <span>Binary</span>
+            Converter
+        </h2>
+        <form action="" method="post">
+            <div>
+                <div>
+                    <label for="initial_number_system">From</label>
+                    <select name="initial_number_system" id="#initial_number_system">
+                        <option value=""></option>
+                        <option value="binary">Binary</option>
+                        <option value="decimal">Decimal</option>
+                        <option value="hexadecimal">Hexadecimal</option>
+                        <option value="octal">Octal</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="target_number_system">To</label>
+                    <select name="target_number_system" id="#target_number_system">
+                        <option value=""></option>
+                        <option value="binary">Binary</option>
+                        <option value="decimal">Decimal</option>
+                        <option value="hexadecimal">Hexadecimal</option>
+                        <option value="octal">Octal</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label for="number_to_be_converted">Enter number</label>
+                <input type="number" name="number_to_be_converted" id="number_to_be_converted">
+            </div>
+
+            <div>
+                <label for="converted_number">Converted number</label>
+                <input type="number" name="converted_number" id="converted_number">
+            </div>
+
+        </form>
+   </div>
 </body>
 </html>
