@@ -88,6 +88,13 @@ function convertBinaryToOctal(binaryString) {
     return octalValue;
 }
 
+function convertBinaryToHexadecimal(binaryString) {
+    if(!isValidBinary(binaryString)) return;
+    const decimalValue = convertBinaryToDecimal(binaryString);
+    const hexadecimalValue = convertDecimalToHexadecimal(decimalValue).toUpperCase();
+    return hexadecimalValue;
+}
+
 function convertOctalToDecimal(octalNumber) {
     if(!isValidOctal(octalNumber)) return;
     return parseInt(octalNumber, 8);
