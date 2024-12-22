@@ -2,22 +2,76 @@ const conversionDescription = document.querySelector("h2");
 const initialNumberSystemSelection = document.querySelector("#initial_number_system");
 const targetNumberSystemSelection = document.querySelector("#target_number_system");
 const numberToBeConverted = document.querySelector("#number_to_be_converted");
+const convertBtn = document.querySelector("button");
 const convertedNumber = document.querySelector("#converted_number");
+
+let inputBase = "decimal";
+let outputBase = "binary";
 
 initialNumberSystemSelection.addEventListener("change", function () {
     const selectedNumberSystem = this.value;
+    inputBase = selectedNumberSystem;
     conversionDescription.firstElementChild.innerHTML = selectedNumberSystem.charAt(0).toUpperCase() + selectedNumberSystem.slice(1);
 });
 
 targetNumberSystemSelection.addEventListener("change", function () {
     const selectedNumberSystem = this.value;
+    outputBase = selectedNumberSystem;
     conversionDescription.lastElementChild.innerHTML = selectedNumberSystem.charAt(0).toUpperCase() + selectedNumberSystem.slice(1);
 });
 
-
-numberToBeConverted.addEventListener("keyup", function () {
-    console.log(this.value);
-})
+numberToBeConverted.addEventListener("input", function (event) {
+  let input = event.target.value;
+  if (inputBase == "decimal" && outputBase == "binary") {
+    convertedNumber.innerText = isValidDecimal(input)
+      ? convertDecimalToBinary(parseInt(input, 10))
+      : "";
+  } else if (inputBase == "decimal" && outputBase == "octal") {
+    convertedNumber.innerText = isValidDecimal(input)
+      ? convertDecimalToOctal(parseInt(input, 10))
+      : "";
+  } else if (inputBase == "decimal" && outputBase == "hexadecimal") {
+    convertedNumber.innerText = isValidDecimal(input)
+      ? convertDecimalToHexadecimal(parseInt(input, 10))
+      : "";
+  } else if (inputBase == "binary" && outputBase == "decimal") {
+    convertedNumber.innerText = isValidBinary(input)
+      ? convertBinaryToDecimal(input)
+      : "";
+  } else if (inputBase == "binary" && outputBase == "octal") {
+    convertedNumber.innerText = isValidBinary(input)
+      ? convertBinaryToOctal(input)
+      : "";
+  } else if (inputBase == "binary" && outputBase == "hexadecimal") {
+    convertedNumber.innerText = isValidBinary(input)
+      ? convertBinaryToHexadecimal(input)
+      : "";
+  } else if (inputBase == "octal" && outputBase == "binary") {
+    convertedNumber.innerText = isValidOctal(input)
+      ? convertOctalToBinary(parseInt(input, 8))
+      : "";
+  } else if (inputBase == "octal" && outputBase == "decimal") {
+    convertedNumber.innerText = isValidOctal(input)
+      ? convertOctalToDecimal(parseInt(input, 8))
+      : "";
+  } else if (inputBase == "octal" && outputBase == "hexadecimal") {
+    convertedNumber.innerText = isValidOctal(input)
+      ? convertOctalToHexadecimal(parseInt(input, 8))
+      : "";
+  } else if (inputBase == "hexadecimal" && outputBase == "binary") {
+    convertedNumber.innerText = isValidHexadecimal(input)
+      ? convertHexadecimalToBinary(parseInt(input, 16))
+      : "";
+  } else if (inputBase == "hexadecimal" && outputBase == "decimal") {
+    convertedNumber.innerText = isValidHexadecimal(input)
+      ? convertHexadecimalToDecimal(parseInt(input, 16))
+      : "";
+  } else if (inputBase == "hexadecimal" && outputBase == "octal") {
+    convertedNumber.innerText = isValidHexadecimal(input)
+      ? convertHexadecimalToOctal(parseInt(input, 16))
+      : "";
+  }
+});
 
 // Checks the validity of the input in the inputBase using regex
 const isValidBinary = input => /^[01]+$/.test(input);
@@ -62,7 +116,7 @@ function addBinary(a, b) {
 }
 
 function convertDecimalToBinary(decimalNumber) {
-    if(!isValidDecimal(decimalNumber)) return "Invalid";
+    if(!isValidDecimal(decimalNumber)) return;
     return decimalNumber >= 0 ? (decimalNumber).toString(2) : toTwosComplement(decimalNumber);
 }
 

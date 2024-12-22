@@ -82,7 +82,8 @@ select {
 }
 
 select,
-form > div > input {
+form > div > input,
+form > div > output {
     padding: 8px;
     border: 1px solid #000;
     border-radius: 8px;
@@ -92,9 +93,14 @@ form > div > input {
     color: #000;
 }
 
-form > div > input {
+form > div > input,
+form > div > output {
     min-width: 140px;
     max-width: 610px;
+}
+
+form > div > output {
+    height: 41.5px;
 }
 
 
