@@ -72,6 +72,11 @@ function convertDecimalToOctal(decimalNumber) {
     return (decimalNumber).toString(8);
 } 
 
+function convertDecimalToHexadecimal(decimalNumber) {
+    if(!isValidDecimal(decimalNumber)) return;
+    return (decimalNumber).toString(16);
+}
+
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
 
