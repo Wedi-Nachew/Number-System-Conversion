@@ -28,9 +28,45 @@ const isValidHexadecimal = input => /^[0-9a-fA-F]+$/.test(input);
 
 function convertDecimalToBinary(decimalValue) {
     if(!isValidDecimal(decimalValue)) return "Invalid";
-    const binaryValue = (decimalToBinary >= 0 ? (decimalValue).toString(2) : (decimalValue >>> 0).toString(2))
+    const binaryValue = (decimalToBinary >= 0 ? (decimalValue).toString(2): toTwosComplement(decimalValue));
     return binaryValue;
 }
+
+function toTwosComplement(decimalValue) {
+    // Inverting the bits of the original binary number
+    const onesComplement = (decimalValue).toString(2).split("").map(digit => digit = (digit == 1 ? 0 : 1)).join("");
+
+    // Adding 1 to the inverted binary number
+    const twosComplement = addBinary((Math.abs(decimalValue)).toString(2),(1).toString(2));
+    return twosComplement;
+}
+
+function addBinary(a, b) {
+    // Ensure both strings are of equal length by padding with zeros
+    const maxLength = Math.max(a.length, b.length);
+    a = a.padStart(maxLength, '0');
+    b = b.padStart(maxLength, '0');
+  
+    let sum = '';
+    let carry = 0;
+  
+    // Add binary numbers from the least significant bit
+    for (let i = maxLength - 1; i >= 0; i--) {
+      const bitA = parseInt(a.charAt(i), 10);
+      const bitB = parseInt(b.charAt(i), 10);
+  
+      // Calculate sum of current bits and carry
+      const currentSum = bitA + bitB + carry;
+      sum += (currentSum % 2); // Current bit
+      carry = Math.floor(currentSum / 2); // Carry for next iteration
+    }
+  
+    // If there's a carry left, add it
+    if (carry) sum = carry + sum;
+  
+    return sum;
+  }
+  
 
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
