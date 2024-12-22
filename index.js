@@ -119,6 +119,13 @@ function convertHexadecimalToDecimal(hexadecimalNumber) {
     return parseInt(hexadecimalNumber, 16);
 }
 
+function convertHexadecimalToBinary(hexadecimalNumber) {
+    if(!isValidHexadecimal(hexadecimalNumber)) return;
+    const decimalValue = convertHexadecimalToDecimal(hexadecimalNumber);
+    const binaryValue = convertDecimalToBinary(decimalValue);
+    return binaryValue;
+}
+
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
 
