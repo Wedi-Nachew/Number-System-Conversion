@@ -81,6 +81,11 @@ function convertBinaryToDecimal(binaryString) {
     return parseInt(binaryString, 2);
 }
 
+function convertOctalToDecimal(octalNumber) {
+    if(!isValidOctal(octalNumber)) return;
+    return parseInt(octalNumber, 8);
+}
+
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
 
