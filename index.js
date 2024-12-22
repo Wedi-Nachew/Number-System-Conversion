@@ -14,7 +14,7 @@ initialNumberSystemSelection.addEventListener("change", function () {
     conversionDescription.firstElementChild.innerHTML = selectedNumberSystem.charAt(0).toUpperCase() + selectedNumberSystem.slice(1);
 });
 
-targetNumberSystemSelection.addEventListener("change", function () {
+targetNumberSystemSelection.addEventListener("input", function () {  
     const selectedNumberSystem = this.value;
     outputBase = selectedNumberSystem;
     conversionDescription.lastElementChild.innerHTML = selectedNumberSystem.charAt(0).toUpperCase() + selectedNumberSystem.slice(1);
@@ -60,15 +60,15 @@ numberToBeConverted.addEventListener("input", function (event) {
       : "";
   } else if (inputBase == "hexadecimal" && outputBase == "binary") {
     convertedNumber.innerText = isValidHexadecimal(input)
-      ? convertHexadecimalToBinary(parseInt(input, 16))
+      ? convertHexadecimalToBinary(input)
       : "";
   } else if (inputBase == "hexadecimal" && outputBase == "decimal") {
     convertedNumber.innerText = isValidHexadecimal(input)
-      ? convertHexadecimalToDecimal(parseInt(input, 16))
+      ? convertHexadecimalToDecimal(input)
       : "";
   } else if (inputBase == "hexadecimal" && outputBase == "octal") {
     convertedNumber.innerText = isValidHexadecimal(input)
-      ? convertHexadecimalToOctal(parseInt(input, 16))
+      ? convertHexadecimalToOctal(input)
       : "";
   }
 });
@@ -127,7 +127,7 @@ function convertDecimalToOctal(decimalNumber) {
 
 function convertDecimalToHexadecimal(decimalNumber) {
     if(!isValidDecimal(decimalNumber)) return;
-    return (decimalNumber).toString(16);
+    return (decimalNumber).toString(16).toUpperCase();
 }
 
 function convertBinaryToDecimal(binaryString) {
