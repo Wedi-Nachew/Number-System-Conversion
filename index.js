@@ -28,8 +28,7 @@ const isValidHexadecimal = input => /^[0-9a-fA-F]+$/.test(input);
 
 function convertDecimalToBinary(decimalNumber) {
     if(!isValidDecimal(decimalNumber)) return "Invalid";
-    const binaryValue = (decimalToBinary >= 0 ? (decimalNumber).toString(2): toTwosComplement(decimalNumber));
-    return binaryValue;
+    return decimalNumber >= 0 ? (decimalNumber).toString(2) : toTwosComplement(decimalNumber);
 }
 
 function toTwosComplement(decimalNumber) {
