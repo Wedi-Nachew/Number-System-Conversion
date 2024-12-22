@@ -21,10 +21,16 @@ numberToBeConverted.addEventListener("keyup", function () {
 
 // Checks the validity of the input in the inputBase using regex
 const isValidBinary = input => /^[01]+$/.test(input);
-const isValidDecimal = input => /^[0-9]+$/.test(input);
+const isValidDecimal = input => /^-?[0-9]+$/.test(input);
 const isValidOctal = input => /^[0-7]+$/.test(input);
 const isValidHexadecimal = input => /^[0-9a-fA-F]+$/.test(input);
 
+
+function convertDecimalToBinary(decimalValue) {
+    if(!isValidDecimal(decimalValue)) return "Invalid";
+    const binaryValue = (decimalToBinary >= 0 ? (decimalValue).toString(2) : (decimalValue >>> 0).toString(2))
+    return binaryValue;
+}
 
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
