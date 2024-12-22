@@ -100,6 +100,13 @@ function convertOctalToDecimal(octalNumber) {
     return parseInt(octalNumber, 8);
 }
 
+function convertOctalToBinary(octalNumber) {
+    if(!isValidOctal(octalNumber)) return;
+    const decimalValue = convertOctalToDecimal(octalNumber);
+    const binaryValue = convertDecimalToBinary(decimalValue);
+    return binaryValue;
+}
+
 function convertHexadecimalToDecimal(hexadecimalNumber) {
     if(!hexadecimalNumber) return;
     return parseInt(hexadecimalNumber, 16);
