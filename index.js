@@ -8,17 +8,28 @@ const convertedNumber = document.querySelector("#converted_number");
 let inputBase = "decimal";
 let outputBase = "binary";
 
+preventUserFromSelectingTheSameInputAndOutputBase();
+
 initialNumberSystemSelection.addEventListener("change", function () {
     const selectedNumberSystem = this.value;
     inputBase = selectedNumberSystem;
+    preventUserFromSelectingTheSameInputAndOutputBase();
     conversionDescription.firstElementChild.innerHTML = selectedNumberSystem.charAt(0).toUpperCase() + selectedNumberSystem.slice(1);
 });
 
-targetNumberSystemSelection.addEventListener("input", function () {  
+
+targetNumberSystemSelection.addEventListener("change", function () {  
     const selectedNumberSystem = this.value;
     outputBase = selectedNumberSystem;
     conversionDescription.lastElementChild.innerHTML = selectedNumberSystem.charAt(0).toUpperCase() + selectedNumberSystem.slice(1);
 });
+
+function preventUserFromSelectingTheSameInputAndOutputBase() {
+    for(let option of targetNumberSystemSelection.children) {
+        if (option.value != inputBase && option.hasAttribute("disabled")) option.removeAttribute("disabled");
+        if (option.value == inputBase) option.setAttribute("disabled", true);
+    }
+}
 
 numberToBeConverted.addEventListener("input", function (event) {
   let input = event.target.value;
