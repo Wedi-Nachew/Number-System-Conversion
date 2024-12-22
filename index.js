@@ -26,11 +26,6 @@ const isValidOctal = input => /^[0-7]+$/.test(input);
 const isValidHexadecimal = input => /^[0-9a-fA-F]+$/.test(input);
 
 
-function convertDecimalToBinary(decimalNumber) {
-    if(!isValidDecimal(decimalNumber)) return "Invalid";
-    return decimalNumber >= 0 ? (decimalNumber).toString(2) : toTwosComplement(decimalNumber);
-}
-
 function toTwosComplement(decimalNumber) {
     // Inverting the bits of the original binary number
     const onesComplement = (decimalNumber).toString(2).split("").map(digit => digit = (digit == 1 ? 0 : 1)).join("");
@@ -66,6 +61,11 @@ function addBinary(a, b) {
     return sum;
 }
 
+function convertDecimalToBinary(decimalNumber) {
+    if(!isValidDecimal(decimalNumber)) return "Invalid";
+    return decimalNumber >= 0 ? (decimalNumber).toString(2) : toTwosComplement(decimalNumber);
+}
+
 function convertDecimalToOctal(decimalNumber) {
     if(!isValidDecimal(decimalNumber)) return;
     return (decimalNumber).toString(8);
@@ -79,6 +79,13 @@ function convertDecimalToHexadecimal(decimalNumber) {
 function convertBinaryToDecimal(binaryString) {
     if(!isValidBinary(binaryString)) return;
     return parseInt(binaryString, 2);
+}
+
+function convertBinaryToOctal(binaryString) {
+    if(!isValidBinary(binaryString)) return;
+    const decimalValue = convertBinaryToDecimal(binaryString);
+    const octalValue = convertDecimalToOctal(decimalValue);
+    return octalValue;
 }
 
 function convertOctalToDecimal(octalNumber) {
