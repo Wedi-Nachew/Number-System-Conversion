@@ -26,18 +26,18 @@ const isValidOctal = input => /^[0-7]+$/.test(input);
 const isValidHexadecimal = input => /^[0-9a-fA-F]+$/.test(input);
 
 
-function convertDecimalToBinary(decimalValue) {
-    if(!isValidDecimal(decimalValue)) return "Invalid";
-    const binaryValue = (decimalToBinary >= 0 ? (decimalValue).toString(2): toTwosComplement(decimalValue));
+function convertDecimalToBinary(decimalNumber) {
+    if(!isValidDecimal(decimalNumber)) return "Invalid";
+    const binaryValue = (decimalToBinary >= 0 ? (decimalNumber).toString(2): toTwosComplement(decimalNumber));
     return binaryValue;
 }
 
-function toTwosComplement(decimalValue) {
+function toTwosComplement(decimalNumber) {
     // Inverting the bits of the original binary number
-    const onesComplement = (decimalValue).toString(2).split("").map(digit => digit = (digit == 1 ? 0 : 1)).join("");
+    const onesComplement = (decimalNumber).toString(2).split("").map(digit => digit = (digit == 1 ? 0 : 1)).join("");
 
     // Adding 1 to the inverted binary number
-    const twosComplement = addBinary((Math.abs(decimalValue)).toString(2),(1).toString(2));
+    const twosComplement = addBinary((Math.abs(decimalNumber)).toString(2),(1).toString(2));
     return twosComplement;
 }
 
@@ -65,8 +65,7 @@ function addBinary(a, b) {
     if (carry) sum = carry + sum;
   
     return sum;
-  }
-  
+}
 
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
