@@ -86,6 +86,11 @@ function convertOctalToDecimal(octalNumber) {
     return parseInt(octalNumber, 8);
 }
 
+function convertHexadecimalToDecimal(hexadecimalNumber) {
+    if(!hexadecimalNumber) return;
+    return parseInt(hexadecimalNumber, 16);
+}
+
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
 
