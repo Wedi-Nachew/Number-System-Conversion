@@ -67,6 +67,11 @@ function addBinary(a, b) {
     return sum;
 }
 
+function convertDecimalToOctal(decimalNumber) {
+    if(!isValidDecimal(decimalNumber)) return;
+    return (decimalNumber).toString(8);
+} 
+
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
 
