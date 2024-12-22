@@ -126,6 +126,13 @@ function convertHexadecimalToBinary(hexadecimalNumber) {
     return binaryValue;
 }
 
+function convertHexadecimalToOctal(hexadecimalNumber) {
+    if(!isValidHexadecimal(hexadecimalNumber)) return;
+    const decimalValue = convertHexadecimalToDecimal(hexadecimalNumber);
+    const octalValue = convertDecimalToOctal(decimalValue);
+    return binaryValue;
+}
+
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
 
