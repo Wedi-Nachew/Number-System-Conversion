@@ -76,6 +76,11 @@ function convertDecimalToHexadecimal(decimalNumber) {
     return (decimalNumber).toString(16);
 }
 
+function convertBinaryToDecimal(binaryString) {
+    if(!isValidBinary(binaryString)) return;
+    return parseInt(binaryString, 2);
+}
+
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
 
