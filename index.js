@@ -107,6 +107,13 @@ function convertOctalToBinary(octalNumber) {
     return binaryValue;
 }
 
+function convertOctalToHexadecimal(hexadecimalNumber) {
+    if(!isValidOctal(hexadecimalNumber)) return;
+    const decimalValue = convertOctalToDecimal(hexadecimalNumber);
+    const hexadecimalValue = convertDecimalToHexadecimal(decimalValue).toUpperCase();
+    return hexadecimalValue;
+}
+
 function convertHexadecimalToDecimal(hexadecimalNumber) {
     if(!hexadecimalNumber) return;
     return parseInt(hexadecimalNumber, 16);
