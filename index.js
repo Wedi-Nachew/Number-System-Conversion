@@ -77,15 +77,15 @@ function convertNumber() {
       : "";
   } else if (inputBase == "octal" && outputBase == "binary") {
     convertedNumber.innerText = isValidOctal(input)
-      ? convertOctalToBinary(parseInt(input, 8))
+      ? convertOctalToBinary(input)
       : "";
   } else if (inputBase == "octal" && outputBase == "decimal") {
     convertedNumber.innerText = isValidOctal(input)
-      ? convertOctalToDecimal(parseInt(input, 8))
+      ? convertOctalToDecimal(input)
       : "";
   } else if (inputBase == "octal" && outputBase == "hexadecimal") {
     convertedNumber.innerText = isValidOctal(input)
-      ? convertOctalToHexadecimal(parseInt(input, 8))
+      ? convertOctalToHexadecimal(input)
       : "";
   } else if (inputBase == "hexadecimal" && outputBase == "binary") {
     convertedNumber.innerText = isValidHexadecimal(input)

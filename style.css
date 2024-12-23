@@ -102,6 +102,7 @@ form > div > output {
 form > div > output {
     height: 41.5px;
     background-color: #fff;
+    overflow-x: scroll;
 }
 
 
