@@ -372,19 +372,3 @@ function explainHexadecimalToOctal(hexadecimalString) {
 }
 
 console.log(explainHexadecimalToOctal("FF"));
-
-function decimalToBinary(number) {
-    if(typeof number == NaN) return; //prevents from unexpected errors
-
-    let integerDivisionRemainder = [];
-    let integerDivisionQuotient = [];
-    let integerDivisionResult = Math.floor(number / 2);
-
-    while(integerDivisionResult) {
-        let remainder = number % 2;
-        integerDivisionRemainder.unshift(remainder); //The binary representation is the sequence of remainders read in reverse order
-        integerDivisionQuotient.push(integerDivisionResult)
-    }
-
-    return {integerDivisionRemainder, integerDivisionQuotient};
-}
