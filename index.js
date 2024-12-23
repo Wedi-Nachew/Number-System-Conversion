@@ -219,10 +219,7 @@ function explainDecimalToBinary(decimalNumber) {
     currentDecimalValue = Math.floor(currentDecimalValue / 2);
   }
 
-  return { 
-    explanation : steps,
-    result : convertDecimalToBinary(decimalNumber) 
-  };
+  return { explanation : steps, result : convertDecimalToBinary(decimalNumber) };
 }
 
 function explainDecimalToOctal(decimalNumber) {
@@ -234,10 +231,7 @@ function explainDecimalToOctal(decimalNumber) {
     currentDecimalValue = Math.floor(currentDecimalValue / 8);
   }
 
-  return {
-    explanation : steps,
-    result : convertDecimalToOctal(decimalNumber)
-  };
+  return { explanation : steps, result : convertDecimalToOctal(decimalNumber) };
 }
 
 function explainDecimalToHexadecimal(decimalNumber) {
@@ -249,12 +243,66 @@ function explainDecimalToHexadecimal(decimalNumber) {
     currentDecimalValue = Math.floor(currentDecimalValue / 16);
   }
 
-  return {
-    explanation : steps,
-    result : convertDecimalToHexadecimal(decimalNumber)
-  }; 
+  return { explanation : steps, result : convertDecimalToHexadecimal(decimalNumber) }; 
 }
 
+function explainBinaryToDecimal(binaryString) {
+  let steps = [];
+  let decimalValue = 0;
+  const binaryArray = binaryString.split("").reverse();
+
+  binaryArray.forEach((bit, index) => {
+   let contribution = parseInt(bit) * 2**index;
+   steps.push(`Bit ${bit} at position ${index}: ${bit} * 2**${index} = ${contribution}`) 
+   decimalValue += contribution;
+  });
+
+  return { explanation : steps, result : decimalValue };
+}
+
+function explainBinaryToOctal(binaryString) {
+  let steps = [];
+  let octalString = "";
+  let binaryArray = binaryString.split("");
+
+  let remainder = binaryArray.length % 3;
+  if (remainder)
+    for (let i = 0; i < 3 - remainder; i++) 
+      binaryArray.unshift(0);
+  
+  for (let i = 0; i < binaryArray.length - 1; i += 3) {
+    let decimalValue = convertBinaryToDecimal(`${binaryArray[i]}${binaryArray[i + 1]}${binaryArray[i + 2]}`);
+    steps.push(
+      `${binaryArray[i]}${binaryArray[i + 1]}${
+        binaryArray[i + 2]
+      } --> ${decimalValue}`
+    );
+    octalString += decimalValue;
+  }
+
+  return {explanation: steps, result: octalString};
+}
+
+function explainBinaryToHexadecimal(binaryString) {
+  let steps = [];
+  let hexadecimalString = "";
+  let binaryArray = binaryString.split("");
+
+  let remainder = binaryArray.length % 4;
+  if (remainder)
+    for (let i = 0; i < 4 - remainder; i++) 
+      binaryArray.unshift(0);
+  
+  for (let i = 0; i < binaryArray.length - 1; i += 4) {
+    let decimalValue = convertBinaryToDecimal(`${binaryArray[i]}${binaryArray[i+1]}${binaryArray[i+2]}${binaryArray[i+3]}`);
+    steps.push(`${binaryArray[i]}${binaryArray[i+1]}${binaryArray[i+2]}${binaryArray[i+3]} --> ${decimalValue}`);
+    hexadecimalString += (decimalValue).toString(16)?.toUpperCase();
+  }
+
+  return {explanation: steps, result: hexadecimalString };
+}
+
+console.log(explainBinaryToHexadecimal('11001000'));
 
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
