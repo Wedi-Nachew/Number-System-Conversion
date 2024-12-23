@@ -209,6 +209,22 @@ function convertHexadecimalToOctal(hexadecimalNumber) {
     return binaryValue;
 }
 
+
+function explainDecimalToBinary(decimalNumber) {
+  let steps = [];
+  let currentDecimalValue = decimalNumber;
+
+  while(currentDecimalValue) {
+    steps.push(`${currentDecimalValue} ÷ 2 = ${Math.floor(currentDecimalValue / 2)} remainder ${currentDecimalValue % 2}`)
+    currentDecimalValue = Math.floor(currentDecimalValue / 2);
+  }
+
+  return { 
+    "explanation" : steps,
+    "result" : convertDecimalToBinary(decimalNumber) 
+  };
+}
+
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
 
