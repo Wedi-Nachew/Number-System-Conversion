@@ -206,7 +206,7 @@ function convertHexadecimalToOctal(hexadecimalNumber) {
     if(!isValidHexadecimal(hexadecimalNumber)) return;
     const decimalValue = convertHexadecimalToDecimal(hexadecimalNumber);
     const octalValue = convertDecimalToOctal(decimalValue);
-    return binaryValue;
+    return octalValue;
 }
 
 
@@ -302,7 +302,42 @@ function explainBinaryToHexadecimal(binaryString) {
   return {explanation: steps, result: hexadecimalString };
 }
 
-console.log(explainBinaryToHexadecimal('11001000'));
+function explainOctalToDecimal(octalNumber) {
+  let steps = [];
+  const octalArray = (octalNumber).toString().split("").reverse();
+  let decimalValue = 0;
+
+  octalArray.forEach((digit, index) => {
+   let contribution = parseInt(digit) * 8**index;
+   steps.push(`${digit} at position ${index}: ${digit} * 8**${index} = ${contribution}`) 
+   decimalValue += contribution;
+  });
+
+  return { explanation : steps, result : decimalValue };
+}
+
+function explainOctalToBinary(octalNumber) {
+  let steps = [];
+  let binaryString = "";
+  const octalArray = (octalNumber).toString().split("");
+
+  for(let digit of octalArray) {
+    const contribution = (parseInt(digit, 8)).toString(2);
+    steps.push(`${digit} --> ${contribution}`);
+    binaryString += contribution;
+  }
+
+  return { explanation : steps, result : binaryString };
+}
+
+function explainOctalToHexadecimal(octalNumber) {
+  let {explanation: stepOne, result: binaryString} = explainOctalToBinary(octalNumber);
+  let {explanation: stepTwo, result: hexadecimalString} = explainBinaryToHexadecimal(binaryString);
+
+  return {explanation : [stepOne, stepTwo], result : hexadecimalString};
+}
+
+console.log(explainOctalToHexadecimal(55));
 
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
