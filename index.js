@@ -15,13 +15,16 @@ initialNumberSystemSelection.addEventListener("change", function () {
     inputBase = selectedNumberSystem;
     preventUserFromSelectingTheSameInputAndOutputBase();
     conversionDescription.firstElementChild.innerHTML = selectedNumberSystem.charAt(0).toUpperCase() + selectedNumberSystem.slice(1);
+    convertNumber();
 });
 
 
 targetNumberSystemSelection.addEventListener("change", function () {  
     const selectedNumberSystem = this.value;
     outputBase = selectedNumberSystem;
+    preventUserFromSelectingTheSameInputAndOutputBase();
     conversionDescription.lastElementChild.innerHTML = selectedNumberSystem.charAt(0).toUpperCase() + selectedNumberSystem.slice(1);
+    convertNumber();
 });
 
 function preventUserFromSelectingTheSameInputAndOutputBase() {
@@ -29,10 +32,25 @@ function preventUserFromSelectingTheSameInputAndOutputBase() {
         if (option.value != inputBase && option.hasAttribute("disabled")) option.removeAttribute("disabled");
         if (option.value == inputBase) option.setAttribute("disabled", true);
     }
+
+    for(let option of initialNumberSystemSelection.children) {
+        if (option.value != outputBase && option.hasAttribute("disabled")) option.removeAttribute("disabled");
+        if (option.value == outputBase) option.setAttribute("disabled", true);
+    }
 }
 
-numberToBeConverted.addEventListener("input", function (event) {
-  let input = event.target.value;
+numberToBeConverted.addEventListener("input", function () {
+  convertNumber();
+});
+
+// Checks the validity of the input in the inputBase using regex
+const isValidBinary = input => /^[01]+$/.test(input);
+const isValidDecimal = input => /^-?[0-9]+$/.test(input);
+const isValidOctal = input => /^[0-7]+$/.test(input);
+const isValidHexadecimal = input => /^[0-9a-fA-F]+$/.test(input);
+
+function convertNumber() {
+  let input = numberToBeConverted.value;
   if (inputBase == "decimal" && outputBase == "binary") {
     convertedNumber.innerText = isValidDecimal(input)
       ? convertDecimalToBinary(parseInt(input, 10))
@@ -82,14 +100,7 @@ numberToBeConverted.addEventListener("input", function (event) {
       ? convertHexadecimalToOctal(input)
       : "";
   }
-});
-
-// Checks the validity of the input in the inputBase using regex
-const isValidBinary = input => /^[01]+$/.test(input);
-const isValidDecimal = input => /^-?[0-9]+$/.test(input);
-const isValidOctal = input => /^[0-7]+$/.test(input);
-const isValidHexadecimal = input => /^[0-9a-fA-F]+$/.test(input);
-
+}
 
 function toTwosComplement(decimalNumber) {
     // Inverting the bits of the original binary number
