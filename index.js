@@ -220,10 +220,41 @@ function explainDecimalToBinary(decimalNumber) {
   }
 
   return { 
-    "explanation" : steps,
-    "result" : convertDecimalToBinary(decimalNumber) 
+    explanation : steps,
+    result : convertDecimalToBinary(decimalNumber) 
   };
 }
+
+function explainDecimalToOctal(decimalNumber) {
+  let steps = [];
+  let currentDecimalValue = decimalNumber;
+
+  while(currentDecimalValue) {
+    steps.push(`${currentDecimalValue} ÷ 8 = ${Math.floor(currentDecimalValue / 8)} remainder ${currentDecimalValue % 8}`);
+    currentDecimalValue = Math.floor(currentDecimalValue / 8);
+  }
+
+  return {
+    explanation : steps,
+    result : convertDecimalToOctal(decimalNumber)
+  };
+}
+
+function explainDecimalToHexadecimal(decimalNumber) {
+  let steps = [];
+  let currentDecimalValue = decimalNumber;
+
+  while(currentDecimalValue) {
+    steps.push(`${currentDecimalValue} ÷ 16 = ${Math.floor(currentDecimalValue / 16)} remainder ${currentDecimalValue % 16}`);
+    currentDecimalValue = Math.floor(currentDecimalValue / 16);
+  }
+
+  return {
+    explanation : steps,
+    result : convertDecimalToHexadecimal(decimalNumber)
+  }; 
+}
+
 
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
