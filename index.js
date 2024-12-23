@@ -4,6 +4,7 @@ const targetNumberSystemSelection = document.querySelector("#target_number_syste
 const numberToBeConverted = document.querySelector("#number_to_be_converted");
 const convertBtn = document.querySelector("button");
 const convertedNumber = document.querySelector("#converted_number");
+const swapBtn = document.querySelector("button");
 
 let inputBase = "decimal";
 let outputBase = "binary";

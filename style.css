@@ -63,15 +63,11 @@ form {
 
 .from-to-container button {
     width: 40px;
+    margin-top: 25px;
     border: none;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-}
-.from-to-container img {
-    height: 35px;
-    width: 100%;
-    margin-bottom: 5px;
+    border-radius: 50%;
+    background: url(swap-horizontal-circle-solid.svg) no-repeat center center;
+    background-size: contain;
     cursor: pointer;
 }
 
