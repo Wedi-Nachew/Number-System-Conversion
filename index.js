@@ -49,7 +49,7 @@ const isValidDecimal = input => /^-?[0-9]+$/.test(input);
 const isValidOctal = input => /^[0-7]+$/.test(input);
 const isValidHexadecimal = input => /^[0-9a-fA-F]+$/.test(input);
 
-function convertNumber() {
+function convertNumberObsolete() {
   let input = numberToBeConverted.value;
   if (inputBase == "decimal" && outputBase == "binary") {
     convertedNumber.innerText = isValidDecimal(input)
@@ -98,6 +98,59 @@ function convertNumber() {
   } else if (inputBase == "hexadecimal" && outputBase == "octal") {
     convertedNumber.innerText = isValidHexadecimal(input)
       ? convertHexadecimalToOctal(input)
+      : "";
+  }
+}
+
+function convertNumber() {
+  let input = numberToBeConverted.value;
+  if (inputBase == "decimal" && outputBase == "binary") {
+    convertedNumber.innerText = isValidDecimal(input)
+      ? explainDecimalToBinary(parseInt(input, 10)).result
+      : "";
+  } else if (inputBase == "decimal" && outputBase == "octal") {
+    convertedNumber.innerText = isValidDecimal(input)
+      ? explainDecimalToOctal(parseInt(input, 10)).result
+      : "";
+  } else if (inputBase == "decimal" && outputBase == "hexadecimal") {
+    convertedNumber.innerText = isValidDecimal(input)
+      ? explainDecimalToHexadecimal(parseInt(input, 10)).result
+      : "";
+  } else if (inputBase == "binary" && outputBase == "decimal") {
+    convertedNumber.innerText = isValidBinary(input)
+      ? explainBinaryToDecimal(input).result
+      : "";
+  } else if (inputBase == "binary" && outputBase == "octal") {
+    convertedNumber.innerText = isValidBinary(input)
+      ? explainBinaryToOctal(input).result
+      : "";
+  } else if (inputBase == "binary" && outputBase == "hexadecimal") {
+    convertedNumber.innerText = isValidBinary(input)
+      ? explainBinaryToHexadecimal(input).result
+      : "";
+  } else if (inputBase == "octal" && outputBase == "binary") {
+    convertedNumber.innerText = isValidOctal(input)
+      ? explainOctalToBinary(input).result
+      : "";
+  } else if (inputBase == "octal" && outputBase == "decimal") {
+    convertedNumber.innerText = isValidOctal(input)
+      ? explainOctalToDecimal(input).result
+      : "";
+  } else if (inputBase == "octal" && outputBase == "hexadecimal") {
+    convertedNumber.innerText = isValidOctal(input)
+      ? explainOctalToHexadecimal(input).result
+      : "";
+  } else if (inputBase == "hexadecimal" && outputBase == "binary") {
+    convertedNumber.innerText = isValidHexadecimal(input)
+      ? explainHexadecimalToBinary(input).result
+      : "";
+  } else if (inputBase == "hexadecimal" && outputBase == "decimal") {
+    convertedNumber.innerText = isValidHexadecimal(input)
+      ? explainHexadecimalToDecimal(input).result
+      : "";
+  } else if (inputBase == "hexadecimal" && outputBase == "octal") {
+    convertedNumber.innerText = isValidHexadecimal(input)
+      ? explainHexadecimalToOctal(input).result
       : "";
   }
 }
@@ -211,7 +264,6 @@ function convertHexadecimalToOctal(hexadecimalNumber) {
     const octalValue = convertDecimalToOctal(decimalValue);
     return octalValue;
 }
-
 
 function explainDecimalToBinary(decimalNumber) {
   return decimalNumber >= 0
