@@ -117,7 +117,7 @@ function addBinary(a, b) {
     a = a.padStart(maxLength, '0');
     b = b.padStart(maxLength, '0');
   
-    let sum = '';
+    let sum = "";
     let carry = 0;
   
     // Add binary numbers from the least significant bit
@@ -132,7 +132,10 @@ function addBinary(a, b) {
     }
   
     // If there's a carry left, add it
-    if (carry) sum = carry + sum;
+    if (carry) sum += carry;
+
+    //reverses sum string
+    sum = sum.split("").reverse().join("");
   
     return sum;
 }
@@ -211,39 +214,91 @@ function convertHexadecimalToOctal(hexadecimalNumber) {
 
 
 function explainDecimalToBinary(decimalNumber) {
-  let steps = [];
-  let currentDecimalValue = decimalNumber;
+  return decimalNumber >= 0
+    ? explainPositiveDecimalToBinary(decimalNumber)
+    : explainNegativeDecimalToBinary(decimalNumber);
+}
 
-  while(currentDecimalValue) {
-    steps.push(`${currentDecimalValue} ÷ 2 = ${Math.floor(currentDecimalValue / 2)} remainder ${currentDecimalValue % 2}`)
-    currentDecimalValue = Math.floor(currentDecimalValue / 2);
-  }
+console.log(explainDecimalToBinary(-10));
 
-  return { explanation : steps, result : convertDecimalToBinary(decimalNumber) };
+function explainPositiveDecimalToBinary(decimalNumber) {
+    let steps = [];
+    let currentDecimalValue = decimalNumber;
+    let binaryString = "";
+
+    while(currentDecimalValue) {
+      const remainder = currentDecimalValue % 2;
+      steps.push(`${currentDecimalValue} ÷ 2 = ${Math.floor(currentDecimalValue / 2)} remainder ${remainder}`)
+      currentDecimalValue = Math.floor(currentDecimalValue / 2);
+      binaryString += remainder;
+    }
+
+    binaryString = binaryString.split("").reverse().join("");
+
+    return { explanation : steps, result : binaryString};
+}
+
+function explainNegativeDecimalToBinary(decimalNumber) {
+    /* General equation to determine the number of bits(n) needed to 
+     represent a number(i.e. N) in 2's complement is n=⌈log2​(∣N∣+1)⌉+1 */
+
+    decimalNumber = Math.abs(decimalNumber);
+    let numberOfBitsRequired = Math.ceil(Math.log2(decimalNumber+1)) + 1;
+    let {explanation: stepOne, result: binaryString} = explainPositiveDecimalToBinary(decimalNumber);
+    
+    //Represents the decimal number in the appropriate number of bits
+    while(stepOne.length < numberOfBitsRequired) stepOne.push(`0 ÷ 2 = 0 remainder 0`);
+
+    let binaryArray = binaryString.split("");
+    
+    //Represents the decimal number in the appropriate number of bits
+    while(binaryArray.length < numberOfBitsRequired) binaryArray.unshift(0);
+    let stepTwo = [];
+    let onesComplement = binaryArray.map(digit => digit = (digit == 1 ? 0 : 1)).join("");
+    for(let i=0; i< binaryArray.length; i++)
+      stepTwo.push(`${binaryArray[i]} --> ${onesComplement[i]}`);
+
+    let stepThree = [];
+    let twosComplement = addBinary(onesComplement, "1");
+    stepThree.push(` ${twosComplement}
+                    +${"1".padStart(twosComplement.length,0)}`);
+
+    return {explanation : [stepOne,stepTwo,stepThree], result : twosComplement}; 
 }
 
 function explainDecimalToOctal(decimalNumber) {
   let steps = [];
   let currentDecimalValue = decimalNumber;
+  let octalValue = "";
 
   while(currentDecimalValue) {
+    const contribution = currentDecimalValue % 8;
     steps.push(`${currentDecimalValue} ÷ 8 = ${Math.floor(currentDecimalValue / 8)} remainder ${currentDecimalValue % 8}`);
     currentDecimalValue = Math.floor(currentDecimalValue / 8);
+    octalValue += contribution.toString(8);
   }
 
-  return { explanation : steps, result : convertDecimalToOctal(decimalNumber) };
+  octalValue = octalValue.split("").reverse().join("");
+
+  return { explanation : steps, result : octalValue };
+
 }
 
 function explainDecimalToHexadecimal(decimalNumber) {
   let steps = [];
   let currentDecimalValue = decimalNumber;
+  let hexadecimalString = "";
 
   while(currentDecimalValue) {
+    const contribution = currentDecimalValue % 16; 
     steps.push(`${currentDecimalValue} ÷ 16 = ${Math.floor(currentDecimalValue / 16)} remainder ${currentDecimalValue % 16}`);
     currentDecimalValue = Math.floor(currentDecimalValue / 16);
+    hexadecimalString += contribution.toString(16)?.toUpperCase();
   }
 
-  return { explanation : steps, result : convertDecimalToHexadecimal(decimalNumber) }; 
+  hexadecimalString = hexadecimalString.split("").reverse().join("");
+
+  return { explanation : steps, result : hexadecimalString }; 
 }
 
 function explainBinaryToDecimal(binaryString) {
@@ -371,4 +426,3 @@ function explainHexadecimalToOctal(hexadecimalString) {
   return {explanation : [stepOne, stepTwo], result : octalValue};
 }
 
-console.log(explainHexadecimalToOctal("FF"));
