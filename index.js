@@ -49,10 +49,92 @@ function preventUserFromSelectingTheSameInputAndOutputBase() {
     }
 }
 
+function convertNumber() {
+  let input = numberToBeConverted.value;
+  if (inputBase == "decimal" && outputBase == "binary") {
+    convertedNumber.innerText = isValidDecimal(input)
+      ? explainDecimalToBinary(parseInt(input, 10)).result
+      : "";
+  } else if (inputBase == "decimal" && outputBase == "octal") {
+    convertedNumber.innerText = isValidDecimal(input)
+      ? explainDecimalToOctal(parseInt(input, 10)).result
+      : "";
+  } else if (inputBase == "decimal" && outputBase == "hexadecimal") {
+    convertedNumber.innerText = isValidDecimal(input)
+      ? explainDecimalToHexadecimal(parseInt(input, 10)).result
+      : "";
+  } else if (inputBase == "binary" && outputBase == "decimal") {
+    convertedNumber.innerText = isValidBinary(input)
+      ? explainBinaryToDecimal(input).result
+      : "";
+  } else if (inputBase == "binary" && outputBase == "octal") {
+    convertedNumber.innerText = isValidBinary(input)
+      ? explainBinaryToOctal(input).result
+      : "";
+  } else if (inputBase == "binary" && outputBase == "hexadecimal") {
+    convertedNumber.innerText = isValidBinary(input)
+      ? explainBinaryToHexadecimal(input).result
+      : "";
+  } else if (inputBase == "octal" && outputBase == "binary") {
+    convertedNumber.innerText = isValidOctal(input)
+      ? explainOctalToBinary(input).result
+      : "";
+  } else if (inputBase == "octal" && outputBase == "decimal") {
+    convertedNumber.innerText = isValidOctal(input)
+      ? explainOctalToDecimal(input).result
+      : "";
+  } else if (inputBase == "octal" && outputBase == "hexadecimal") {
+    convertedNumber.innerText = isValidOctal(input)
+      ? explainOctalToHexadecimal(input).result
+      : "";
+  } else if (inputBase == "hexadecimal" && outputBase == "binary") {
+    convertedNumber.innerText = isValidHexadecimal(input)
+      ? explainHexadecimalToBinary(input).result
+      : "";
+  } else if (inputBase == "hexadecimal" && outputBase == "decimal") {
+    convertedNumber.innerText = isValidHexadecimal(input)
+      ? explainHexadecimalToDecimal(input).result
+      : "";
+  } else if (inputBase == "hexadecimal" && outputBase == "octal") {
+    convertedNumber.innerText = isValidHexadecimal(input)
+      ? explainHexadecimalToOctal(input).result
+      : "";
+  }
+}
+
 function explainDecimalToBinary(decimalNumber) {
   return decimalNumber >= 0
     ? explainPositiveDecimalToBinary(decimalNumber)
     : explainNegativeDecimalToBinary(decimalNumber);
+}
+
+function addBinary(a, b) {
+    // Ensure both strings are of equal length by padding with zeros
+    const maxLength = Math.max(a.length, b.length);
+    a = a.padStart(maxLength, '0');
+    b = b.padStart(maxLength, '0');
+  
+    let sum = "";
+    let carry = 0;
+  
+    // Add binary numbers from the least significant bit
+    for (let i = maxLength - 1; i >= 0; i--) {
+      const bitA = parseInt(a.charAt(i), 10);
+      const bitB = parseInt(b.charAt(i), 10);
+  
+      // Calculate sum of current bits and carry
+      const currentSum = bitA + bitB + carry;
+      sum += (currentSum % 2); // Current bit
+      carry = Math.floor(currentSum / 2); // Carry for next iteration
+    }
+  
+    // If there's a carry left, add it
+    if (carry) sum += carry;
+
+    //reverses sum string
+    sum = sum.split("").reverse().join("");
+  
+    return sum;
 }
 
 function explainPositiveDecimalToBinary(decimalNumber) {
@@ -70,35 +152,6 @@ function explainPositiveDecimalToBinary(decimalNumber) {
     binaryString = binaryString.split("").reverse().join("");
 
     return { explanation : steps, result : binaryString};
-}
-
-function addBinary(a, b) {
-  // Ensure both strings are of equal length by padding with zeros
-  const maxLength = Math.max(a.length, b.length);
-  a = a.padStart(maxLength, '0');
-  b = b.padStart(maxLength, '0');
-
-  let sum = "";
-  let carry = 0;
-
-  // Add binary numbers from the least significant bit
-  for (let i = maxLength - 1; i >= 0; i--) {
-    const bitA = parseInt(a.charAt(i), 10);
-    const bitB = parseInt(b.charAt(i), 10);
-
-    // Calculate sum of current bits and carry
-    const currentSum = bitA + bitB + carry;
-    sum += (currentSum % 2); // Current bit
-    carry = Math.floor(currentSum / 2); // Carry for next iteration
-  }
-
-  // If there's a carry left, add it
-  if (carry) sum += carry;
-
-  //reverses sum string
-  sum = sum.split("").reverse().join("");
-
-  return sum;
 }
 
 function explainNegativeDecimalToBinary(decimalNumber) {
