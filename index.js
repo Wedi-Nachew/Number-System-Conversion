@@ -32,6 +32,24 @@ numberToBeConverted.addEventListener("input", function () {
   convertNumber();
 });
 
+swapBtn.addEventListener("click", (event) => {
+  event.preventDefault(); // Prevents the button from submitting the form
+  [inputBase, outputBase] = [outputBase, inputBase]; // Swapping input and output bases
+  conversionDescription.firstElementChild.innerHTML = inputBase.charAt(0).toUpperCase() + inputBase.slice(1);
+  conversionDescription.lastElementChild.innerHTML = outputBase.charAt(0).toUpperCase() + outputBase.slice(1);
+  
+  for(let option of targetNumberSystemSelection.children) {
+        if (option.value != outputBase && option.hasAttribute("selected")) option.removeAttribute("selected");
+        if (option.value == outputBase) option.setAttribute("selected", true);
+  }
+
+  for(let option of initialNumberSystemSelection.children) {
+      if (option.value != inputBase && option.hasAttribute("selected")) option.removeAttribute("selected");
+      if (option.value == inputBase) option.setAttribute("selected", true);
+  }
+  convertNumber();
+})
+
 // Checks the validity of the input in the inputBase using regex
 const isValidBinary = input => /^[01]+$/.test(input);
 const isValidDecimal = input => /^-?[0-9]+$/.test(input);
