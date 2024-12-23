@@ -27,6 +27,16 @@ targetNumberSystemSelection.addEventListener("change", function () {
     convertNumber();
 });
 
+numberToBeConverted.addEventListener("input", function () {
+  convertNumber();
+});
+
+// Checks the validity of the input in the inputBase using regex
+const isValidBinary = input => /^[01]+$/.test(input);
+const isValidDecimal = input => /^-?[0-9]+$/.test(input);
+const isValidOctal = input => /^[0-7]+$/.test(input);
+const isValidHexadecimal = input => /^[0-9a-fA-F]+$/.test(input);
+
 function preventUserFromSelectingTheSameInputAndOutputBase() {
     for(let option of targetNumberSystemSelection.children) {
         if (option.value != inputBase && option.hasAttribute("disabled")) option.removeAttribute("disabled");
@@ -39,24 +49,11 @@ function preventUserFromSelectingTheSameInputAndOutputBase() {
     }
 }
 
-numberToBeConverted.addEventListener("input", function () {
-  convertNumber();
-});
-
-// Checks the validity of the input in the inputBase using regex
-const isValidBinary = input => /^[01]+$/.test(input);
-const isValidDecimal = input => /^-?[0-9]+$/.test(input);
-const isValidOctal = input => /^[0-7]+$/.test(input);
-const isValidHexadecimal = input => /^[0-9a-fA-F]+$/.test(input);
-
-
 function explainDecimalToBinary(decimalNumber) {
   return decimalNumber >= 0
     ? explainPositiveDecimalToBinary(decimalNumber)
     : explainNegativeDecimalToBinary(decimalNumber);
 }
-
-console.log(explainDecimalToBinary(-10));
 
 function explainPositiveDecimalToBinary(decimalNumber) {
     let steps = [];
@@ -73,6 +70,35 @@ function explainPositiveDecimalToBinary(decimalNumber) {
     binaryString = binaryString.split("").reverse().join("");
 
     return { explanation : steps, result : binaryString};
+}
+
+function addBinary(a, b) {
+  // Ensure both strings are of equal length by padding with zeros
+  const maxLength = Math.max(a.length, b.length);
+  a = a.padStart(maxLength, '0');
+  b = b.padStart(maxLength, '0');
+
+  let sum = "";
+  let carry = 0;
+
+  // Add binary numbers from the least significant bit
+  for (let i = maxLength - 1; i >= 0; i--) {
+    const bitA = parseInt(a.charAt(i), 10);
+    const bitB = parseInt(b.charAt(i), 10);
+
+    // Calculate sum of current bits and carry
+    const currentSum = bitA + bitB + carry;
+    sum += (currentSum % 2); // Current bit
+    carry = Math.floor(currentSum / 2); // Carry for next iteration
+  }
+
+  // If there's a carry left, add it
+  if (carry) sum += carry;
+
+  //reverses sum string
+  sum = sum.split("").reverse().join("");
+
+  return sum;
 }
 
 function explainNegativeDecimalToBinary(decimalNumber) {
