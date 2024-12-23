@@ -337,7 +337,41 @@ function explainOctalToHexadecimal(octalNumber) {
   return {explanation : [stepOne, stepTwo], result : hexadecimalString};
 }
 
-console.log(explainOctalToHexadecimal(55));
+function explainHexadecimalToDecimal(hexadecimalString) {
+  let steps = [];
+  let decimalValue = 0;
+  const hexadecimalArray = (hexadecimalString).split("").reverse();
+
+  hexadecimalArray.forEach((digit, index) => {
+    const contribution = parseInt(digit,16) * 16**index;
+    steps.push(`${digit} at position ${index}: ${parseInt(digit,16)} * 16**${index} = ${contribution}`);
+    decimalValue += contribution;
+  })
+
+  return {explanation : steps, result : decimalValue}
+}
+
+function explainHexadecimalToBinary(hexadecimalString) {
+  let steps = [];
+  let binaryString = "";
+  let hexadecimalArray = hexadecimalString.split("");
+  hexadecimalArray.forEach(digit => {
+    const contribution = (parseInt(digit,16)).toString(2);
+    steps.push(`${digit} --> ${contribution}`);
+    binaryString += contribution;
+  })
+
+  return {explanation : steps, result : binaryString};
+}
+
+function explainHexadecimalToOctal(hexadecimalString) {
+  let {explanation: stepOne, result: binaryString} = explainHexadecimalToBinary(hexadecimalString);
+  let {explanation: stepTwo, result: octalValue} = explainBinaryToOctal(binaryString);
+
+  return {explanation : [stepOne, stepTwo], result : octalValue};
+}
+
+console.log(explainHexadecimalToOctal("FF"));
 
 function decimalToBinary(number) {
     if(typeof number == NaN) return; //prevents from unexpected errors
