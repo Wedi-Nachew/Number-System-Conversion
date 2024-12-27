@@ -39,7 +39,7 @@ nav a {
 }
 
 #hero h2{
-    font-size: 22px;
+    font-size: 25px;
     color: #006633;
     margin: 10px 0;
 }
@@ -115,6 +115,62 @@ form > div > output {
     overflow-x: scroll;
 }
 
+details {
+    margin-top: 50px;
+    width: clamp(300px,75%,85%);
+    font-family: inherit;
+    color: #1f2932;
+}
 
+summary {
+    color:#006633;
+    font-weight: 700;
+    font-size: 25px;
+    margin: 10px 0;
+}
 
+details div {
+    background-color: #eee;
+    border: 1px solid #888;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 4%;
+    color: #1f2932;
+}
 
+details h3{
+    font-size: 23px;
+    color:#006633d0;
+}
+
+details h4 {
+    font-size: 21px;
+    margin: 8px 0 5px;
+    color:#006633d0;
+}
+
+details h4:not(:first-of-type) {
+    margin-top: 30px;
+}
+
+ol {
+    padding-left: 45px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;   
+}
+ 
+li {
+    font-size: 21px;
+}
+
+pre {
+    background-color: #1f2932;
+    color: #e5e7eb;
+    font-family: inherit;
+    font-size: 0.8rem;
+    padding: 1rem 1.5rem;
+    margin-left: 20px;
+    line-height: 1.5rem;
+    border-radius: 25px;
+}
