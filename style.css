@@ -167,7 +167,7 @@ li {
 pre {
     background-color: #1f2932;
     color: #e5e7eb;
-    font-family: inherit;
+    font-family: monospace;
     font-size: 0.8rem;
     padding: 1rem 1.5rem;
     margin-left: 20px;
