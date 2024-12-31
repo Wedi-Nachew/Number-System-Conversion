@@ -168,9 +168,98 @@ pre {
     background-color: #1f2932;
     color: #e5e7eb;
     font-family: monospace;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     padding: 1rem 1.5rem;
     margin-left: 20px;
     line-height: 1.5rem;
     border-radius: 25px;
+    /* white-space: pre-wrap; */
+}
+
+details > div > pre {
+    /* overflow: scroll; */
+}
+
+.negative-decimal-to-binary h5{
+    font-size: 0.85rem;
+    color: #006633;
+    margin-bottom: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.negative-decimal-to-binary h5:first-of-type {
+    margin-top: 10px;
+}
+
+.negative-decimal-to-binary > pre {
+    margin-bottom: 36px;
+    padding: 0.5rem 1.5rem 0;
+}
+
+math {
+    margin: -26px;
+    font-size: 0.7rem;
+    margin-left: -64%;
+}
+
+math * {
+    text-align: left;
+}
+
+math:first-child {
+    margin-top: 16px;
+}
+
+.negative-decimal-to-binary > pre:first-of-type math:nth-child(1) {
+    margin-left: -80%;
+}
+
+.negative-decimal-to-binary > pre:first-of-type math:nth-child(2) {
+    margin-left: -78%;
+}
+
+.negative-decimal-to-binary > pre:first-of-type math:nth-child(3) {
+    margin-left: -82%;
+}
+
+pre > pre:last-child {
+    padding: 0;
+    margin-top: -20px;
+}
+pre > pre:last-child math:last-child {
+    margin-left: -92%;
+}
+
+pre:first-child {
+    padding: 0;
+}
+
+pre:first-child math:first-child {
+    margin-left: -69%;
+}
+
+pre ul {
+    padding-left: 36px;
+    margin-top: -40px;
+}
+
+pre  li {
+    font-size: 16px;
+    margin-left: 50px;
+    font-weight: lighter;
+}
+
+pre li:first-child {
+    font-size: 17px;
+    list-style: none;
+    margin-left: 0;
+}
+
+.negative-decimal-to-binary pre:last-of-type p{
+    margin-top: -10px;
+}
+.negative-decimal-to-binary pre:last-of-type p:nth-child(3) {
+    /* position: absolute; */
+    /* top: 50%; */
+    margin-top: -30px;
 }

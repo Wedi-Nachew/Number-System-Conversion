@@ -76,12 +76,20 @@ details.addEventListener("toggle", function () {
   });
 
   if (inputBase == "decimal" && outputBase == "binary") {
-    renderBinaryConversions("Binary", 2);
+    renderConversionsFromBinary("Binary", 2);
   } else if (inputBase == "decimal" && outputBase == "octal") {
-    renderBinaryConversions("Octal", 8);
+    renderConversionsFromBinary("Octal", 8);
   } else if (inputBase == "decimal" && outputBase == "hexadecimal") {
-    renderBinaryConversions("Hexadecimal", 16);
+    renderConversionsFromBinary("Hexadecimal", 16);
+  } else if(inputBase == "binary" && outputBase == "decimal") {
+    renderToDecimalConversions("binary", 2);
+  } else if(inputBase == "hexadecimal" && outputBase == "decimal") {
+    renderToDecimalConversions("hexadecimal", 16);
+  } else if(inputBase == "octal" && outputBase == "decimal") {
+    renderToDecimalConversions("octal", 8);
   }
+
+
 });
 
 function formatExplanation(explanationArray) {
@@ -123,7 +131,7 @@ const isValidDecimal = (input) => /^-?[0-9]+$/.test(input);
 const isValidOctal = (input) => /^[0-7]+$/.test(input);
 const isValidHexadecimal = (input) => /^[0-9a-fA-F]+$/.test(input);
 
-function renderBinaryConversions(output,outputBase) {
+function renderConversionsFromBinary(output,outputBase) {
   let input = numberToBeConverted.value;
   const methodOfConversion = document.createElement("h3");
   const generalInstruction = document.createElement("h4");
@@ -184,6 +192,8 @@ function renderBinaryConversions(output,outputBase) {
   containerInsideDetails.appendChild(codeBlockDescription);
   containerInsideDetails.appendChild(codeBlock);
   containerInsideDetails.appendChild(outputResult);
+  containerInsideDetails.classList.forEach(className => containerInsideDetails.classList.remove(className));
+  containerInsideDetails.classList.add(`decimal-to-${output.toLowerCase()}`);
   details.appendChild(containerInsideDetails);
 }
 
@@ -207,6 +217,8 @@ function renderNegativeDecimalToBinary() {
   const equationToDetermineNumberOfBits = document.createElement("pre");
   const generalEquation = document.createElement("pre");
   const specificEquation = document.createElement("pre")
+  const headerForTakeAbsoluteValueOfTheNumber = document.createElement("h5");
+  const takeAbsoluteValueOfTheNumber = document.createElement("pre");
   const instructions = [
     "Take the absolute value of the number.",
     "Determine the Number of Bits Needed.",
@@ -217,9 +229,9 @@ function renderNegativeDecimalToBinary() {
     "Final Output: The resulting binary number represents the 2's complement of the original number.",
   ];
   const equationExplanation = ["Explanation:",
-    "The ∣N∣+1∣N∣+1 ensures you account for both positive and negative ranges.",
-    "The ⌈log⁡2⌉⌈log2​⌉ rounds up to the nearest integer.",
-    "Add 11 to account for the sign bit."
+    "The ∣N∣+1 ensures you account for both positive and negative ranges.",
+    "The ⌈​⌉ rounds up to the nearest integer.",
+    "Add 1 to account for the sign bit."
   ]; 
 
   let { explanation: explanations, result } = convertAndExplainDecimalToBinary(
@@ -229,6 +241,28 @@ function renderNegativeDecimalToBinary() {
 
   methodOfConversion.innerText = "Method: Division-Remainder Method";
   generalInstruction.innerText = "General Procedure";
+
+  headerForTakeAbsoluteValueOfTheNumber.innerText = "Take absolute value of the number or drop the sign of the negative number";
+  takeAbsoluteValueOfTheNumber.innerHTML = `<math xmlns="http://www.w3.org/1998/Math.MathML" display="block">
+                                              <mi>N</mi>
+                                              <mo>=</mo>
+                                              <mo>|</mo>
+                                              <mi>-N</mi>
+                                              <mo>|</mo> 
+                                            </math>
+                                            <math xmlns="http://www.w3.org/1998/Math.MathML" display="block">
+                                              <mi>N</mi>
+                                              <mo>=</mo>
+                                              <mo>|</mo>
+                                              <mn>${input}</mn>
+                                              <mo>|</mo> 
+                                            </math>
+                                            <math xmlns="http://www.w3.org/1998/Math.MathML" display="block">
+                                              <mi>N</mi>
+                                              <mo>=</mo>
+                                              <mn>${Math.abs(input)}</mn>
+                                            </math>
+                                            `;
 
   headerForTheEquations.innerText = "Determine the number of bits needed to represent the number using the equation below";
   generalEquation.innerHTML = ` <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
@@ -287,7 +321,6 @@ function renderNegativeDecimalToBinary() {
   }
 
   number = input;
-  equationToDetermineNumberOfBits.appendChild(headerForTheEquations);
   equationToDetermineNumberOfBits.appendChild(generalEquation);
   equationToDetermineNumberOfBits.appendChild(explanationForTheEquation);
   equationToDetermineNumberOfBits.appendChild(specificEquation);
@@ -302,29 +335,29 @@ function renderNegativeDecimalToBinary() {
   containerInsideDetails.appendChild(listOfSteps);
   codeBlockDescription.innerText = "Calculation";
 
-  const stepOneDetails = explanations[0].map((line, i) => {
-    if (i === 0) return line + "  <-- Rightmost bit";
-    if (i === explanations.length-1) return line + "  <-- Leftmost bit";
-    return line;
-  });
+  console.log(explanationForTheEquation)
   stepOneDescription.innerText = "Division Steps(Convert Decimal To Binary)";
-  // stepOneDetails.unshift("Division Steps(Convert Decimal to Binary)"); //.join("\n");
-  stepOne.innerText = stepOneDetails.join("\n"); // Add newline for proper formatting
-
-  const stepTwoDetails = explanations[1].map((line, i) => {
-    if (i === 0) return line + "  <-- Rightmost bit";
-    if (i === explanations.length-1) return line + "  <-- Leftmost bit";
+  stepOne.innerText = explanations[0].map((line, i) => {
+    if (i == 0) return line + "  <-- Rightmost bit";
+    if (i == explanations[0].length-1) return line + "  <-- Leftmost bit";
     return line;
-  });
+  }).join("\n");
+
   stepTwoDescription.innerText = "Inverting The Bits";
-  // stepTwoDetails.unshift("Inverting The bits");
-  stepTwo.innerText = stepTwoDetails.join("\n");
+  stepTwo.innerText = explanations[1].map((line, i) => {
+    if (i == 0) return line + "  <-- Rightmost bit";
+    if (i == explanations[0].length-1) return line + "  <-- Leftmost bit";
+    return line;
+  }).join("\n");
 
   stepThreeDescription.innerText = "Final Addition Step";
-  stepThree.innerText = explanations[2].join("\n");
+  stepThree.innerHTML = explanations[2].map(line => `<p>${line}</p>`).join("");
 
   binaryResult.innerText = "Binary Result: " + result;
-  containerInsideDetails.appendChild(codeBlockDescription);
+  containerInsideDetails.appendChild(codeBlockDescription); 
+  containerInsideDetails.appendChild(headerForTakeAbsoluteValueOfTheNumber);
+  containerInsideDetails.appendChild(takeAbsoluteValueOfTheNumber);
+  containerInsideDetails.appendChild(headerForTheEquations);
   containerInsideDetails.appendChild(equationToDetermineNumberOfBits);
   containerInsideDetails.appendChild(stepOneDescription);
   containerInsideDetails.appendChild(stepOne);
@@ -333,6 +366,71 @@ function renderNegativeDecimalToBinary() {
   containerInsideDetails.appendChild(stepThreeDescription);
   containerInsideDetails.appendChild(stepThree);
   containerInsideDetails.appendChild(binaryResult);
+  containerInsideDetails.classList.forEach(className => containerInsideDetails.classList.remove(className));
+  containerInsideDetails.classList.add("negative-decimal-to-binary");
+  details.appendChild(containerInsideDetails);
+}
+
+function renderToDecimalConversions(inputType, inputBase) {
+  let input = numberToBeConverted.value;
+  const methodOfConversion = document.createElement("h3");
+  const generalInstruction = document.createElement("h4");
+  const listOfSteps = document.createElement("ol");
+  const stepOneDescription = document.createElement("h5");
+  const stepTwoDescription = document.createElement("h5");
+  const stepThreeDescription = document.createElement("h5");
+  const stepOne = document.createElement("pre");
+  const stepTwo = document.createElement("pre");
+  const stepThree = document.createElement("pre");
+  const outputResult = document.createElement("h4");
+  const instructions = [`Write down the ${inputType} number.`,
+                        `Multiply each bit by ${inputBase}${"<sup>n</sup>"}, where n is the position of the bit from right (starting at 0).`,
+                        "Add up all the results."
+                      ];
+  
+  let explanations, result;
+
+  if(inputType == "binary") {
+    explanations = convertAndExplainBinaryToDecimal(input).explanation;
+    result = convertAndExplainBinaryToDecimal(input).result; 
+  } else if(inputType == "hexadecimal") {
+    explanations = convertAndExplainHexadecimalToDecimal(input).explanation;
+    result = convertAndExplainHexadecimalToDecimal(input).result; 
+  } else { 
+    explanations = convertAndExplainOctalToDecimal(input).explanation;
+    result = convertAndExplainOctalToDecimal(input).result; 
+  }
+ 
+  methodOfConversion.innerText = "Method: Place-Value System";
+  generalInstruction.innerText = "General Procedure";
+
+  for (let instruction of instructions) {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = instruction;
+    listOfSteps.appendChild(listItem);
+  }
+
+  containerInsideDetails.appendChild(methodOfConversion);
+  containerInsideDetails.appendChild(generalInstruction);
+  containerInsideDetails.appendChild(listOfSteps);
+
+  stepOneDescription.innerText = "Step One:";
+  stepOne.innerText = `The binary number is: ${input}`
+
+  stepTwoDescription.innerText = "Step Two:";
+  stepTwo.innerHTML = explanations[0].map(line =>  `<li>${line}</li>`).join("");
+
+  stepThreeDescription.innerText = "Step Three:";
+  stepThree.innerText = explanations[1];
+  outputResult.innerText = "Decimal Result: " + result;
+  
+  containerInsideDetails.appendChild(stepOneDescription);
+  containerInsideDetails.appendChild(stepOne);
+  containerInsideDetails.appendChild(stepTwoDescription);
+  containerInsideDetails.appendChild(stepTwo);
+  containerInsideDetails.appendChild(stepThreeDescription);
+  containerInsideDetails.appendChild(stepThree);
+  containerInsideDetails.appendChild(outputResult);
   details.appendChild(containerInsideDetails);
 }
 
@@ -493,7 +591,8 @@ function convertAndExplainNegativeDecimalToBinary(decimalNumber) {
   stepThree.push(
     `  ${twosComplement}`,
     `+ ${"1".padStart(twosComplement.length, 0)}`,
-    `${"_".padStart(`+ ${"1".padStart(twosComplement.length, 0)}`.length,"_")}`
+    `${"_".padStart(`+ ${"1".padStart(twosComplement.length, 0)}`.length,"_")}`,
+    `  ${twosComplement}`
   );
 
   return { explanation: [stepOne, stepTwo, stepThree], result: twosComplement };
@@ -530,7 +629,9 @@ function convertAndExplainDecimalToHexadecimal(decimalNumber) {
     steps.push(
       `Step ${steps.length + 1}: ${currentDecimalValue} ÷ 16 = ${Math.floor(
         currentDecimalValue / 16
-      )} remainder ${contribution >= 10 ? contribution + " = " + contribution.toString(16).toUpperCase() : contribution}`
+      )} remainder ${contribution > 10 
+                                    ? contribution + " = " + contribution.toString(16).toUpperCase() 
+                                    : contribution + " =  " + contribution}`
     );
     currentDecimalValue = Math.floor(currentDecimalValue / 16);
     hexadecimalString += contribution.toString(16)?.toUpperCase();
@@ -543,18 +644,21 @@ function convertAndExplainDecimalToHexadecimal(decimalNumber) {
 
 function convertAndExplainBinaryToDecimal(binaryString) {
   let steps = [];
+  let contributions = [];
   let decimalValue = 0;
   const binaryArray = binaryString.split("").reverse();
 
   binaryArray.forEach((bit, index) => {
     let contribution = parseInt(bit) * 2 ** index;
     steps.push(
-      `Bit ${bit} at position ${index}: ${bit} * 2**${index} = ${contribution}`
+      `Bit ${bit} at position ${index}: ${bit} * 2<sup>${index}</sup> = ${contribution}`
     );
+    contributions.push(contribution);
     decimalValue += contribution;
   });
 
-  return { explanation: steps, result: decimalValue };
+  contributions = contributions.join(" + ") + " = " + decimalValue;
+  return { explanation: [steps, contributions], result: decimalValue };
 }
 
 function convertAndExplainBinaryToOctal(binaryString) {
@@ -609,18 +713,21 @@ function convertAndExplainBinaryToHexadecimal(binaryString) {
 
 function convertAndExplainOctalToDecimal(octalNumber) {
   let steps = [];
+  let contributions = [];
   const octalArray = octalNumber.toString().split("").reverse();
   let decimalValue = 0;
 
   octalArray.forEach((digit, index) => {
     let contribution = parseInt(digit) * 8 ** index;
     steps.push(
-      `${digit} at position ${index}: ${digit} * 8**${index} = ${contribution}`
+      `${digit} at position ${index}: ${digit} * 8<sup>${index}</sup> = ${contribution}`
     );
+    contributions.push(contribution);
     decimalValue += contribution;
   });
 
-  return { explanation: steps, result: decimalValue };
+  contributions = contributions.join(" + ") + " = " + decimalValue;
+  return { explanation: [steps, contributions], result: decimalValue };
 }
 
 function convertAndExplainOctalToBinary(octalNumber) {
@@ -648,21 +755,21 @@ function convertAndExplainOctalToHexadecimal(octalNumber) {
 
 function convertAndExplainHexadecimalToDecimal(hexadecimalString) {
   let steps = [];
+  let contributions = [];
   let decimalValue = 0;
   const hexadecimalArray = hexadecimalString.split("").reverse();
 
   hexadecimalArray.forEach((digit, index) => {
     const contribution = parseInt(digit, 16) * 16 ** index;
     steps.push(
-      `${digit} at position ${index}: ${parseInt(
-        digit,
-        16
-      )} * 16**${index} = ${contribution}`
+      `${digit} at position ${index}: ${parseInt(digit,16)} * 16<sup>${index}</sup> = ${contribution}`
     );
+    contributions.push(contribution);
     decimalValue += contribution;
   });
 
-  return { explanation: steps, result: decimalValue };
+  contributions = contributions.join(" + ") + " = " + decimalValue;
+  return { explanation: [steps, contributions], result: decimalValue };
 }
 
 function convertAndExplainHexadecimalToBinary(hexadecimalString) {
