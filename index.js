@@ -98,7 +98,12 @@ function renderExplanations(){
     renderBinaryToOctalAndHexadecimalConversions("octal", 3);
   } else if(inputBase == "binary" && outputBase == "hexadecimal") {
     renderBinaryToOctalAndHexadecimalConversions("hexadecimal", 4);
+  } else if(inputBase == "octal" && outputBase == "hexadecimal") {
+    renderOctalToHexadecimalAndViceVersa("octal","hexadecimal",3,4);
+  } else if(inputBase == "hexadecimal" && outputBase == "octal") {
+    renderOctalToHexadecimalAndViceVersa("hexadecimal", "octal",4,3);
   } 
+ 
 
 
 }
@@ -379,6 +384,69 @@ function renderNegativeDecimalToBinary() {
   containerInsideDetails.appendChild(binaryResult);
   containerInsideDetails.classList.forEach(className => containerInsideDetails.classList.remove(className));
   containerInsideDetails.classList.add("negative-decimal-to-binary");
+  details.appendChild(containerInsideDetails);
+}
+
+function renderOctalToHexadecimalAndViceVersa(inputType,outputType, numberOfDigitsForInput, numberOfDigitsForOutput) {
+  let input = numberToBeConverted.value;
+  const methodOfConversion = document.createElement("h3");
+  const generalInstruction = document.createElement("h4");
+  const listOfSteps = document.createElement("ol");
+  const codeBlock = document.createElement("pre"); // Use <pre> for preserving formatting
+  codeBlock.classList.add("container");
+  const stepOneDescription = document.createElement("h5");
+  const stepTwoDescription = document.createElement("h5");
+  const stepThreeDescription = document.createElement("h5");
+  const stepOne = document.createElement("pre");
+  const stepTwo = document.createElement("pre");
+  const stepThree = document.createElement("pre");
+  const outputResult = document.createElement("h4");
+  const instructions = [
+    `Convert each ${inputType} digit into its ${numberOfDigitsForInput}-bit binary equivalent`,
+    `Starting from the right, group the binary digits into ${numberOfDigitsForOutput}-bit groups.`,
+    `Convert each ${numberOfDigitsForOutput}-bit group into its ${outputType} equivalent`
+  ];
+
+  let explanation, result;
+  if(inputType == "octal") {
+    explanation = convertAndExplainOctalToHexadecimal(input).explanation;
+    result = convertAndExplainOctalToHexadecimal(input).result;
+  } else if(inputType == "hexadecimal") {
+    explanation = convertAndExplainHexadecimalToOctal(input).explanation;
+    result = convertAndExplainHexadecimalToOctal(input).result;
+  }
+
+  
+  methodOfConversion.innerText = "Method: Using Binary Conversion";
+  generalInstruction.innerText = "General Procedure";
+
+  for (let instruction of instructions) {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = instruction;
+    listOfSteps.appendChild(listItem);
+  }
+
+  containerInsideDetails.appendChild(methodOfConversion);
+  containerInsideDetails.appendChild(generalInstruction);
+  containerInsideDetails.appendChild(listOfSteps);
+
+  stepOneDescription.innerText = "Step One:";
+  stepOne.innerText = `The ${inputType} number is: ${input}`
+
+  stepTwoDescription.innerText = "Step Two:";
+  stepTwo.innerHTML = explanation[0].map(line =>  `<li>${line}</li>`).join("");
+
+  stepThreeDescription.innerText = "Step Three:";
+  stepThree.innerHTML = explanation[1].map(line => `<li>${line}</li>`).join("");
+  outputResult.innerText = `${outputType} Result: ${result}`;
+  
+  containerInsideDetails.appendChild(stepOneDescription);
+  containerInsideDetails.appendChild(stepOne);
+  containerInsideDetails.appendChild(stepTwoDescription);
+  containerInsideDetails.appendChild(stepTwo);
+  containerInsideDetails.appendChild(stepThreeDescription);
+  containerInsideDetails.appendChild(stepThree);
+  containerInsideDetails.appendChild(outputResult);
   details.appendChild(containerInsideDetails);
 }
 

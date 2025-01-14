@@ -249,11 +249,11 @@ pre  li {
     font-weight: lighter;
 }
 
-pre li:first-child {
+/* pre li:first-child {
     font-size: 17px;
     list-style: none;
     margin-left: 0;
-}
+} */
 
 .negative-decimal-to-binary pre:last-of-type p{
     margin-top: -10px;
