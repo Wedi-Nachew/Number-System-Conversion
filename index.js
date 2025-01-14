@@ -11,7 +11,7 @@ const convertedNumber = document.querySelector("#converted_number");
 const swapBtn = document.querySelector("button");
 const details = document.querySelector("details");
 const summary = document.querySelector("summary");
-const containerInsideDetails = document.querySelector("details div");
+const containerInsideDetails = document.querySelector("details > div");
 
 let inputBase = "decimal";
 let outputBase = "binary";
@@ -26,7 +26,7 @@ initialNumberSystemSelection.addEventListener("change", function () {
     selectedNumberSystem.charAt(0).toUpperCase() +
     selectedNumberSystem.slice(1);
   convertNumber();
-  // explainConversion();
+  renderExplanations();
 });
 
 targetNumberSystemSelection.addEventListener("change", function () {
@@ -37,7 +37,7 @@ targetNumberSystemSelection.addEventListener("change", function () {
     selectedNumberSystem.charAt(0).toUpperCase() +
     selectedNumberSystem.slice(1);
   convertNumber();
-  // explainConversion();
+  renderExplanations();
 });
 
 numberToBeConverted.addEventListener("input", function () {
@@ -65,14 +65,17 @@ swapBtn.addEventListener("click", (event) => {
     if (option.value == inputBase) option.setAttribute("selected", true);
   }
 
-  // [numberToBeConverted.value, convertedNumber.innerText] = [convertedNumber.innerText, numberToBeConverted.value]
+  [numberToBeConverted.value, convertedNumber.innerText] = [convertedNumber.innerText, numberToBeConverted.value]
   convertNumber();
+  renderExplanations();
 });
 
-details.addEventListener("toggle", function () {
+details.addEventListener("toggle", renderExplanations);
+
+function renderExplanations(){
   let input = numberToBeConverted.value;
   Array.from(containerInsideDetails.children).forEach((child) => {
-    if (child != summary) details.removeChild(child);
+    containerInsideDetails.removeChild(child);
   });
 
   if (inputBase == "decimal" && outputBase == "binary") {
@@ -98,7 +101,7 @@ details.addEventListener("toggle", function () {
   } 
 
 
-});
+}
 
 function formatExplanation(explanationArray) {
   // Determine the maximum widths for each column
